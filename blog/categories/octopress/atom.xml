@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Fish(er)]]></title>
-  <link href="http://ericpfisher.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Octopress | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://ericpfisher.github.io/"/>
   <updated>2014-02-18T16:43:09-06:00</updated>
   <id>http://ericpfisher.github.io/</id>
@@ -46,10 +46,9 @@ Practice + practice + more practice.</p>
 
 <p>I&rsquo;m going to use this blog to track my progress, catalog things I learn, and push myself to keep going. I love to learn, but I hate learning when I feel like it&rsquo;s going nowhere. This blog is to prove myself wrong. I&rsquo;m gonna learn me some Ruby.</p>
 
-<figure class='code'><figcaption><span>Obligatory First Code Snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>ruby Obligatory First Code Snippet
+puts "Hello, World!"
+</code></p>
 ]]></content>
   </entry>
   
