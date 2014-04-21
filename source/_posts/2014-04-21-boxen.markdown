@@ -1,0 +1,79 @@
+---
+layout: post
+title: "Boxen"
+date: 2014-04-21 09:01:34 -0500
+comments: true
+categories: [ruby, Boxen, Puppet]
+---
+
+Before the weekend, I decided to poke around [Boxen](https://boxen.github.com/) and see what all the fuss is about. I've toyed around with Puppet, but struggled when it came to getting it working in a _pure_ OS X environment, both agent and master (especially master). I had heard about Boxen when I first started investigating Puppet, but neglected to do enough research to find its true value: is it *_the_* OS X (master-less) Puppet!
+
+_Why Do I Need It?_
+
+Yeah, I had that question to. I thought, "Hmm...I don't really manage Macs, and Puppet is for managing heterogenous groups of nodes (servers, computers), so it's probably not for me."
+
+I was wrong.
+
+####Overview
+
+Boxen is OS X's master-less Puppet. It's self-contained, meaning you can clone the [our-boxen](https://github.com/boxen/our-boxen/) repository from Github, install Boxen, and run it. Mind you, it's going to be very bare-bones upon first run, but as you grow with your Mac, Boxen will be there every step of the way.
+
+Boxen, like its Puppet cousin, works based upon the _state_ you wish your machine to be in. Think about it this way:
+
+_"Sublime Text should be installed."_  
+_"SSH should be activated and running."_
+
+A lot of "shoulds." That's how Boxen works. You include modules that reflect the state your unit should be in, and on each run, Boxen checks the current configuration against the desired state...and makes configuration changes to put the unit in the desired state. There are two parts that enforce the "state" for your Mac: Puppetfile and the manifest (e.g. site.pp).
+
+The Puppetfile is a list of resources, telling Boxen where to look when downloading modules:
+
+```ruby Puppetfile snippet
+github "ruby",        "7.3.0"
+```
+
+The "github" is a function declared earlier in the Puppetfile. It just takes the name of the module + it's module version and pulls the module data from Boxen's module list:
+
+```ruby Puppetfile "github" method
+# Shortcut for a module from GitHub's boxen organization
+def github(name, *args)
+  options ||= if args.last.is_a? Hash
+    args.last
+  else
+    {}
+  end
+
+  if path = options.delete(:path)
+    mod name, :path => path
+  else
+    version = args.first
+    options[:repo] ||= "boxen/puppet-#{name}"
+    mod name, version, :github_tarball => options[:repo]
+  end
+end
+```
+
+Then, once you've declared where to get your desired resources, you tell Boxen in the manifest (e.g. site.pp) that you want it to be included on this machine:
+
+```ruby Boxen manifest include
+include ruby
+```
+
+No extra punctuation needed. With those two things in place, Boxen will handle all the rest and get your computer configured the way you want.
+
+####Gotcha No. 1
+
+Once Boxen was installed, I was all excited to try it out and install something I didn't have on my machine. The syntax for including modules in the Puppetfile looked very straight-forward. I just didn't know where people were getting their version numbers. To be honest, I'm still not quite sure where to locate versions for modules, but I've had the best luck using [Travis CI](https://travis-ci.org/) and searching for Boxen modules. The module info usually contains a version. That's what I used for my Vagrant module...
+
+####Gotcha No. 2
+
+There's a [compile bug](http://stackoverflow.com/questions/22352838/ruby-gem-install-json-fails-on-mavericks-and-xcode-5-1-unknown-argument-mul) when running Boxen on OS X Mavericks:
+
+To run it successfully while in the /opt/boxen/repo (and avoid FDE):
+
+```bash Mavericks vs. XCode 5.1
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future ./script/boxen --no-fde
+```
+
+###Onward
+
+I'm excited to grow with Boxen and discover new ways to enhance my own workflow. Now, to keep this enthusiasm up...
