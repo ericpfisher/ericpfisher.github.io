@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-04-11T09:34:19-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[First Post]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/02/18/first-post/"/>
+    <updated>2014-02-18T08:40:55-06:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/02/18/first-post</id>
+    <content type="html"><![CDATA[<h3>Thank You, Octopress</h3>
+
+<p>Round of applause for Octopress for making this &ldquo;I-have-skill-and-want-to-maintain-my-own-blog-but-I-didn&rsquo;t-go-to-school-for-web-development&rdquo; thing so easy. You see that <em>Powered by Octopress</em> at the bottom of this page? Click it.</p>
+
+<p>I&rsquo;m also really liking <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> quite a bit. I ran through a quick Markdown <a href="www.markdowntutorial.com">tutorial</a> and within 30 minutes, I feel I have enough MD skill to write this post&hellip;so <strong>that&rsquo;s</strong> something.</p>
+
+<p>On the subject of Markdown, I had no idea it was created by John Gruber of <a href="http://daringfireball.net"><em>The Daring Fireball</em></a> fame. I was even more surprised to learn that the creation of Markdown was greatly assisted by the late <a href="http://en.wikipedia.org/wiki/Aaron_Swartz">Aaron Swartz</a>. Now that I know a tiny bit about the language and I&rsquo;ve witnessed first-hand how easy it is to use, it makes perfect sense something this simple and powerful would come from a pair like those two. Although, the English major in me is having a hard time not double-spacing after every sentence&hellip;damn you, soft break!</p>
+
+<h3>WhyTF Am I Writing This???</h3>
+
+<p>Yeah, I&rsquo;ve tried to start blogs before. I had a Xanga back in the day. I think it&rsquo;s still out there, actually.  I&rsquo;ve tried keeping a word processor document on my computer with various dates and thoughts. Always failed within a week. I&rsquo;m just not driven to write; I have to work for it.</p>
+
+<p>So, <em>this</em> thing will (hopefully) be different. I was inspired by <a href="http://joshuakemp.blogspot.com"><em>Confessions of an Unlikely Developer</em></a>. Dude was a farrier (you can Google it, you have my blessing) and one day said, &ldquo;F*** it. I&rsquo;m going to be a developer.&rdquo;</p>
+
+<p>No degree.<br/>
+No overt technology background.<br/>
+Three hours of study a day.<br/>
+Attending regular coding meetups.<br/>
+Practice + practice + more practice.</p>
+
+<p>Eight months later and he&rsquo;s a Junior Developer (props to him for sure!).</p>
+
+<p>Here I am with an overt technology background (I worked as a technician at Apple, dammit!), I&rsquo;ve built websites and scripts before, and I can&rsquo;t scrape together the time to hone in and make my work goal (to code for a living) a reality?! F*** that. (I still can&rsquo;t decide how candid I want to be on this thing, so bear with my censoring for now.)</p>
+
+<p>I&rsquo;m going to use this blog to track my progress, catalog things I learn, and push myself to keep going. I love to learn, but I hate learning when I feel like it&rsquo;s going nowhere. This blog is to prove myself wrong. I&rsquo;m gonna learn me some Ruby.</p>
+
+<p><code>ruby Obligatory First Code Snippet
+puts "Hello, World!"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

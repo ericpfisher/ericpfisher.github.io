@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Learning | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/learning/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-04-11T09:34:19-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Catching Up]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/04/11/catching-up/"/>
+    <updated>2014-04-11T08:53:03-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/04/11/catching-up</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been a while, and I&rsquo;ve been slacking. Playing a bit of <a href="http://us.battle.net/d3/en/reaper-of-souls/">Diablo 3: Reaper of Souls</a> in my downtime when I should have been coding. To be fair, it&rsquo;s been crazy at work with a lot of migrations away from Lotus Notes into Exchange/Outlook. Next on the agenda: Active Directory binding! To practice, I should brush up on <em>dsconfigad</em>.</p>
+
+<p>Some goals I&rsquo;ve solidified over the past month:</p>
+
+<p><em>Practice French</em>.<br/>
+<em>Practice Ruby</em>.<br/>
+<em>Practice DevOps (with Puppet or Casper or something&hellip;)</em>.<br/>
+<em>Get back in touch with my n00b web development roots</em>.</p>
+
+<p>That final goal, I&rsquo;m meeting by deploying this blog from my computer at work, too. I&rsquo;ve been too lazy to bring my personal computer into work lately, and I&rsquo;ve been without a full setup of this blog (Octopress doesn&rsquo;t natively push my source branch?).</p>
+
+<p>Whatevs. Off to email JAMF to see if they&rsquo;ll hook me up with a trial of Casper Suite. :D</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Got Schooled]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/02/24/got-schooled/"/>
+    <updated>2014-02-24T15:04:03-06:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/02/24/got-schooled</id>
+    <content type="html"><![CDATA[<p>I thought I was hot stuff going through Chris Pine&rsquo;s <a href="http://pragprog.com/book/ltp2/learn-to-program"><em>Learn To Program</em></a> when I blitzed through the first nine chapters no problem. The exercises were a good challenge, but didn&rsquo;t pose too much of a threat&hellip;</p>
+
+<p>And then I got to chapter ten. In ten, Chris struck a cord with me when he challenges his readers to define his or her own <em>sort</em> method:</p>
+
+<blockquote><p>&hellip;like the Jedi who constructs his own lightsaber, you&rsquo;ll exhibit a greater mastery if you write your own sorting method.</p></blockquote>
+
+<p>Challenge accepted! That was five days ago.</p>
+
+<h3>Enter the Sorting Dragon</h3>
+
+<p>I tried everything I could think of, but still struggled with ultimately keeping track of my data.  I found a great analogy someone posted about treating the elements of your array like playing cards (having &ldquo;sorted&rdquo;, &ldquo;unsorted&rdquo;, and &ldquo;active&rdquo; groups of elements), and think of solving the problem that way. That was a good starting point, but I was still struggling because I couldn&rsquo;t find a way to selectively remove elements from the unsorted array once I had added them to the sorted array.</p>
+
+<p>So, I eventually broke down and checked Chris' solution at the end of the book. Our code was identical except for one key point of logic:</p>
+
+<h5>Me:</h5>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Add it to the sorted list.</li>
+<li>Iterate through the remaining elements.
+
+<ul>
+<li>If there was an element smaller than what was already added, replace it and push the less-small element back into the unsorted pile.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until length of sorted array matched original array.</li>
+</ol>
+
+
+<h6>Chris:</h6>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Assign it to a local variable. Create an empty &ldquo;unsorted&rdquo; array.</li>
+<li>Iterate through the remaning elements.
+
+<ul>
+<li>If there was a smaller element than what was reference by the variable, replace it and push the less-small element to the &ldquo;unsorted&rdquo; array.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until the variable contains the smallest element from the original array.</li>
+<li>Push that smallest element into the &ldquo;sorted&rdquo; array, and recursively pass the &ldquo;unsorted&rdquo; array to the sort method until the &ldquo;unsorted&rdquo;.length &lt;= 0.</li>
+</ol>
+
+
+<h4>Conclusion</h4>
+
+<p>Well, I have to give myself <em>some</em> credit. When I saw his answer, he and I were on the same page logic-wise. But, like a math problem, the devil is in the details. I was performing an action a bit too soon and hadn&rsquo;t separated my logic from my action: I was adding to the sorted list and <em>then</em> comparing instead of the other way around.</p>
+
+<p>All in all, I think this was a very valuable lesson for me, that I&rsquo;m not as much an &ldquo;advanced beginner&rdquo; as I thought I was. I&rsquo;m going to try to swallow my pride (which was a bit hurt, I&rsquo;ll be honest), finish the exercises in the chapter, and keep learning.</p>
+
+<p>No giving up.</p>
+]]></content>
+  </entry>
+  
+</feed>
