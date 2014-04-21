@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Puppet | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/puppet/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-04-21T13:47:58-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Boxen]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/04/21/boxen/"/>
+    <updated>2014-04-21T09:01:34-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/04/21/boxen</id>
+    <content type="html"><![CDATA[<p>Before the weekend, I decided to poke around <a href="https://boxen.github.com/">Boxen</a> and see what all the fuss is about. I&rsquo;ve toyed around with Puppet, but struggled when it came to getting it working in a <em>pure</em> OS X environment, both agent and master (especially master). I had heard about Boxen when I first started investigating Puppet, but neglected to do enough research to find its true value: is it <em><em>the</em></em> OS X (master-less) Puppet!</p>
+
+<p><em>Why Do I Need It?</em></p>
+
+<p>Yeah, I had that question to. I thought, &ldquo;Hmm&hellip;I don&rsquo;t really manage Macs, and Puppet is for managing heterogenous groups of nodes (servers, computers), so it&rsquo;s probably not for me.&rdquo;</p>
+
+<p>I was wrong.</p>
+
+<h4>Overview</h4>
+
+<p>Boxen is OS X&rsquo;s master-less Puppet. It&rsquo;s self-contained, meaning you can clone the <a href="https://github.com/boxen/our-boxen/">our-boxen</a> repository from Github, install Boxen, and run it. Mind you, it&rsquo;s going to be very bare-bones upon first run, but as you grow with your Mac, Boxen will be there every step of the way.</p>
+
+<p>Boxen, like its Puppet cousin, works based upon the <em>state</em> you wish your machine to be in. Think about it this way:</p>
+
+<p><em>&ldquo;Sublime Text should be installed.&rdquo;</em><br/>
+<em>&ldquo;SSH should be activated and running.&rdquo;</em></p>
+
+<p>A lot of &ldquo;shoulds.&rdquo; That&rsquo;s how Boxen works. You include modules that reflect the state your unit should be in, and on each run, Boxen checks the current configuration against the desired state&hellip;and makes configuration changes to put the unit in the desired state. There are two parts that enforce the &ldquo;state&rdquo; for your Mac: Puppetfile and the manifest (e.g. site.pp).</p>
+
+<p>The Puppetfile is a list of resources, telling Boxen where to look when downloading modules:</p>
+
+<p><code>ruby Puppetfile snippet
+github "ruby",        "7.3.0"
+</code></p>
+
+<p>The &ldquo;github&rdquo; is a function declared earlier in the Puppetfile. It just takes the name of the module + it&rsquo;s module version and pulls the module data from Boxen&rsquo;s module list:</p>
+
+<p>```ruby Puppetfile &ldquo;github&rdquo; method</p>
+
+<h1>Shortcut for a module from GitHub&rsquo;s boxen organization</h1>
+
+<p>def github(name, *args)
+  options ||= if args.last.is_a? Hash</p>
+
+<pre><code>args.last
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>{}
+</code></pre>
+
+<p>  end</p>
+
+<p>  if path = options.delete(:path)</p>
+
+<pre><code>mod name, :path =&gt; path
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>version = args.first
+options[:repo] ||= "boxen/puppet-#{name}"
+mod name, version, :github_tarball =&gt; options[:repo]
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Then, once you&rsquo;ve declared where to get your desired resources, you tell Boxen in the manifest (e.g. site.pp) that you want it to be included on this machine:</p>
+
+<p><code>ruby Boxen manifest include
+include ruby
+</code></p>
+
+<p>No extra punctuation needed. With those two things in place, Boxen will handle all the rest and get your computer configured the way you want.</p>
+
+<h4>Gotcha No. 1</h4>
+
+<p>Once Boxen was installed, I was all excited to try it out and install something I didn&rsquo;t have on my machine. The syntax for including modules in the Puppetfile looked very straight-forward. I just didn&rsquo;t know where people were getting their version numbers. To be honest, I&rsquo;m still not quite sure where to locate versions for modules, but I&rsquo;ve had the best luck using <a href="https://travis-ci.org/">Travis CI</a> and searching for Boxen modules. The module info usually contains a version. That&rsquo;s what I used for my Vagrant module&hellip;</p>
+
+<h4>Gotcha No. 2</h4>
+
+<p>There&rsquo;s a <a href="http://stackoverflow.com/questions/22352838/ruby-gem-install-json-fails-on-mavericks-and-xcode-5-1-unknown-argument-mul">compile bug</a> when running Boxen on OS X Mavericks:</p>
+
+<p>To run it successfully while in the /opt/boxen/repo (and avoid FDE):</p>
+
+<p><code>bash Mavericks vs. XCode 5.1
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future ./script/boxen --no-fde
+</code></p>
+
+<h3>Onward</h3>
+
+<p>I&rsquo;m excited to grow with Boxen and discover new ways to enhance my own workflow. Now, to keep this enthusiasm up&hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

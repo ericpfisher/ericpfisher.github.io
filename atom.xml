@@ -4,7 +4,7 @@
   <title><![CDATA[Fish(er)]]></title>
   <link href="http://ericpfisher.github.io/atom.xml" rel="self"/>
   <link href="http://ericpfisher.github.io/"/>
-  <updated>2014-04-11T09:34:19-05:00</updated>
+  <updated>2014-04-21T13:47:58-05:00</updated>
   <id>http://ericpfisher.github.io/</id>
   <author>
     <name><![CDATA[Eric Fisher]]></name>
@@ -14,22 +14,100 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Catching Up]]></title>
-    <link href="http://ericpfisher.github.io/blog/2014/04/11/catching-up/"/>
-    <updated>2014-04-11T08:53:03-05:00</updated>
-    <id>http://ericpfisher.github.io/blog/2014/04/11/catching-up</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s been a while, and I&rsquo;ve been slacking. Playing a bit of <a href="http://us.battle.net/d3/en/reaper-of-souls/">Diablo 3: Reaper of Souls</a> in my downtime when I should have been coding. To be fair, it&rsquo;s been crazy at work with a lot of migrations away from Lotus Notes into Exchange/Outlook. Next on the agenda: Active Directory binding! To practice, I should brush up on <em>dsconfigad</em>.</p>
+    <title type="html"><![CDATA[Boxen]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/04/21/boxen/"/>
+    <updated>2014-04-21T09:01:34-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/04/21/boxen</id>
+    <content type="html"><![CDATA[<p>Before the weekend, I decided to poke around <a href="https://boxen.github.com/">Boxen</a> and see what all the fuss is about. I&rsquo;ve toyed around with Puppet, but struggled when it came to getting it working in a <em>pure</em> OS X environment, both agent and master (especially master). I had heard about Boxen when I first started investigating Puppet, but neglected to do enough research to find its true value: is it <em><em>the</em></em> OS X (master-less) Puppet!</p>
 
-<p>Some goals I&rsquo;ve solidified over the past month:</p>
+<p><em>Why Do I Need It?</em></p>
 
-<p><em>Practice French</em>.<br/>
-<em>Practice Ruby</em>.<br/>
-<em>Practice DevOps (with Puppet or Casper or something&hellip;)</em>.<br/>
-<em>Get back in touch with my n00b web development roots</em>.</p>
+<p>Yeah, I had that question to. I thought, &ldquo;Hmm&hellip;I don&rsquo;t really manage Macs, and Puppet is for managing heterogenous groups of nodes (servers, computers), so it&rsquo;s probably not for me.&rdquo;</p>
 
-<p>That final goal, I&rsquo;m meeting by deploying this blog from my computer at work, too. I&rsquo;ve been too lazy to bring my personal computer into work lately, and I&rsquo;ve been without a full setup of this blog (Octopress doesn&rsquo;t natively push my source branch?).</p>
+<p>I was wrong.</p>
 
-<p>Whatevs. Off to email JAMF to see if they&rsquo;ll hook me up with a trial of Casper Suite. :D</p>
+<h4>Overview</h4>
+
+<p>Boxen is OS X&rsquo;s master-less Puppet. It&rsquo;s self-contained, meaning you can clone the <a href="https://github.com/boxen/our-boxen/">our-boxen</a> repository from Github, install Boxen, and run it. Mind you, it&rsquo;s going to be very bare-bones upon first run, but as you grow with your Mac, Boxen will be there every step of the way.</p>
+
+<p>Boxen, like its Puppet cousin, works based upon the <em>state</em> you wish your machine to be in. Think about it this way:</p>
+
+<p><em>&ldquo;Sublime Text should be installed.&rdquo;</em><br/>
+<em>&ldquo;SSH should be activated and running.&rdquo;</em></p>
+
+<p>A lot of &ldquo;shoulds.&rdquo; That&rsquo;s how Boxen works. You include modules that reflect the state your unit should be in, and on each run, Boxen checks the current configuration against the desired state&hellip;and makes configuration changes to put the unit in the desired state. There are two parts that enforce the &ldquo;state&rdquo; for your Mac: Puppetfile and the manifest (e.g. site.pp).</p>
+
+<p>The Puppetfile is a list of resources, telling Boxen where to look when downloading modules:</p>
+
+<figure class='code'><figcaption><span>Puppetfile snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">github</span> <span class="s2">&quot;ruby&quot;</span><span class="p">,</span>        <span class="s2">&quot;7.3.0&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The &ldquo;github&rdquo; is a function declared earlier in the Puppetfile. It just takes the name of the module + it&rsquo;s module version and pulls the module data from Boxen&rsquo;s module list:</p>
+
+<figure class='code'><figcaption><span>Puppetfile &#8220;github&#8221; method</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Shortcut for a module from GitHub&#39;s boxen organization</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">github</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">options</span> <span class="o">||=</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">Hash</span>
+</span><span class='line'>    <span class="n">args</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="p">{}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">path</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:path</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">mod</span> <span class="nb">name</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="n">path</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">version</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>    <span class="n">options</span><span class="o">[</span><span class="ss">:repo</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;boxen/puppet-</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="n">mod</span> <span class="nb">name</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="ss">:github_tarball</span> <span class="o">=&gt;</span> <span class="n">options</span><span class="o">[</span><span class="ss">:repo</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, once you&rsquo;ve declared where to get your desired resources, you tell Boxen in the manifest (e.g. site.pp) that you want it to be included on this machine:</p>
+
+<figure class='code'><figcaption><span>Boxen manifest include</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">include</span> <span class="n">ruby</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No extra punctuation needed. With those two things in place, Boxen will handle all the rest and get your computer configured the way you want.</p>
+
+<h4>Gotcha No. 1</h4>
+
+<p>Once Boxen was installed, I was all excited to try it out and install something I didn&rsquo;t have on my machine. The syntax for including modules in the Puppetfile looked very straight-forward. I just didn&rsquo;t know where people were getting their version numbers. To be honest, I&rsquo;m still not quite sure where to locate versions for modules, but I&rsquo;ve had the best luck using <a href="https://travis-ci.org/">Travis CI</a> and searching for Boxen modules. The module info usually contains a version. That&rsquo;s what I used for my Vagrant module&hellip;</p>
+
+<h4>Gotcha No. 2</h4>
+
+<p>There&rsquo;s a <a href="http://stackoverflow.com/questions/22352838/ruby-gem-install-json-fails-on-mavericks-and-xcode-5-1-unknown-argument-mul">compile bug</a> when running Boxen on OS X Mavericks:</p>
+
+<p>To run it successfully while in the /opt/boxen/repo (and avoid FDE):</p>
+
+<figure class='code'><figcaption><span>Mavericks vs. XCode 5.1</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">ARCHFLAGS</span><span class="o">=</span>-Wno-error<span class="o">=</span>unused-command-line-argument-hard-error-in-future ./script/boxen --no-fde
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Onward</h3>
+
+<p>I&rsquo;m excited to grow with Boxen and discover new ways to enhance my own workflow. Now, to keep this enthusiasm up&hellip;</p>
 ]]></content>
   </entry>
   
