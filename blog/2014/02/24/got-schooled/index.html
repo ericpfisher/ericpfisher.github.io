@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Got Schooled - Fish(er)</title>
+  <meta name="author" content="Eric Fisher">
+
+  
+  <meta name="description" content="I thought I was hot stuff going through Chris Pine&rsquo;s Learn To Program when I blitzed through the first nine chapters no problem. The exercises &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ericpfisher.github.io/blog/2014/02/24/got-schooled">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Fish(er)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Fish(er)</a></h1>
+  
+    <h2>...learning stuff...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ericpfisher.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Got Schooled</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-24T15:04:03-06:00" pubdate data-updated="true">Feb 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I thought I was hot stuff going through Chris Pine&rsquo;s <a href="http://pragprog.com/book/ltp2/learn-to-program"><em>Learn To Program</em></a> when I blitzed through the first nine chapters no problem. The exercises were a good challenge, but didn&rsquo;t pose too much of a threat&hellip;</p>
+
+<p>And then I got to chapter ten. In ten, Chris struck a cord with me when he challenges his readers to define his or her own <em>sort</em> method:</p>
+
+<blockquote><p>&hellip;like the Jedi who constructs his own lightsaber, you&rsquo;ll exhibit a greater mastery if you write your own sorting method.</p></blockquote>
+
+<p>Challenge accepted! That was five days ago.</p>
+
+<h3>Enter the Sorting Dragon</h3>
+
+<p>I tried everything I could think of, but still struggled with ultimately keeping track of my data.  I found a great analogy someone posted about treating the elements of your array like playing cards (having &ldquo;sorted&rdquo;, &ldquo;unsorted&rdquo;, and &ldquo;active&rdquo; groups of elements), and think of solving the problem that way. That was a good starting point, but I was still struggling because I couldn&rsquo;t find a way to selectively remove elements from the unsorted array once I had added them to the sorted array.</p>
+
+<p>So, I eventually broke down and checked Chris&#8217; solution at the end of the book. Our code was identical except for one key point of logic:</p>
+
+<h5>Me:</h5>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Add it to the sorted list.</li>
+<li>Iterate through the remaining elements.
+
+<ul>
+<li>If there was an element smaller than what was already added, replace it and push the less-small element back into the unsorted pile.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until length of sorted array matched original array.</li>
+</ol>
+
+
+<h6>Chris:</h6>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Assign it to a local variable. Create an empty &ldquo;unsorted&rdquo; array.</li>
+<li>Iterate through the remaning elements.
+
+<ul>
+<li>If there was a smaller element than what was reference by the variable, replace it and push the less-small element to the &ldquo;unsorted&rdquo; array.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until the variable contains the smallest element from the original array.</li>
+<li>Push that smallest element into the &ldquo;sorted&rdquo; array, and recursively pass the &ldquo;unsorted&rdquo; array to the sort method until the &ldquo;unsorted&rdquo;.length &lt;= 0.</li>
+</ol>
+
+
+<h4>Conclusion</h4>
+
+<p>Well, I have to give myself <em>some</em> credit. When I saw his answer, he and I were on the same page logic-wise. But, like a math problem, the devil is in the details. I was performing an action a bit too soon and hadn&rsquo;t separated my logic from my action: I was adding to the sorted list and <em>then</em> comparing instead of the other way around.</p>
+
+<p>All in all, I think this was a very valuable lesson for me, that I&rsquo;m not as much an &ldquo;advanced beginner&rdquo; as I thought I was. I&rsquo;m going to try to swallow my pride (which was a bit hurt, I&rsquo;ll be honest), finish the exercises in the chapter, and keep learning.</p>
+
+<p>No giving up.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Eric Fisher</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-24T15:04:03-06:00" pubdate data-updated="true">Feb 24<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/learning/'>learning</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ericpfisher.github.io/blog/2014/02/24/got-schooled/" data-via="andthankyour" data-counturl="http://ericpfisher.github.io/blog/2014/02/24/got-schooled/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/18/first-post/" title="Previous Post: First post">&laquo; First post</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/04/21/boxen/" title="Next Post: Boxen">Boxen &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/21/boxen/">Boxen</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/24/got-schooled/">Got Schooled</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/18/first-post/">First Post</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ericpfisher">@ericpfisher</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ericpfisher',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Eric Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-04-21T13:47:58-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Boxen]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/04/21/boxen/"/>
+    <updated>2014-04-21T09:01:34-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/04/21/boxen</id>
+    <content type="html"><![CDATA[<p>Before the weekend, I decided to poke around <a href="https://boxen.github.com/">Boxen</a> and see what all the fuss is about. I&rsquo;ve toyed around with Puppet, but struggled when it came to getting it working in a <em>pure</em> OS X environment, both agent and master (especially master). I had heard about Boxen when I first started investigating Puppet, but neglected to do enough research to find its true value: is it <em><em>the</em></em> OS X (master-less) Puppet!</p>
+
+<p><em>Why Do I Need It?</em></p>
+
+<p>Yeah, I had that question to. I thought, &ldquo;Hmm&hellip;I don&rsquo;t really manage Macs, and Puppet is for managing heterogenous groups of nodes (servers, computers), so it&rsquo;s probably not for me.&rdquo;</p>
+
+<p>I was wrong.</p>
+
+<h4>Overview</h4>
+
+<p>Boxen is OS X&rsquo;s master-less Puppet. It&rsquo;s self-contained, meaning you can clone the <a href="https://github.com/boxen/our-boxen/">our-boxen</a> repository from Github, install Boxen, and run it. Mind you, it&rsquo;s going to be very bare-bones upon first run, but as you grow with your Mac, Boxen will be there every step of the way.</p>
+
+<p>Boxen, like its Puppet cousin, works based upon the <em>state</em> you wish your machine to be in. Think about it this way:</p>
+
+<p><em>&ldquo;Sublime Text should be installed.&rdquo;</em><br/>
+<em>&ldquo;SSH should be activated and running.&rdquo;</em></p>
+
+<p>A lot of &ldquo;shoulds.&rdquo; That&rsquo;s how Boxen works. You include modules that reflect the state your unit should be in, and on each run, Boxen checks the current configuration against the desired state&hellip;and makes configuration changes to put the unit in the desired state. There are two parts that enforce the &ldquo;state&rdquo; for your Mac: Puppetfile and the manifest (e.g. site.pp).</p>
+
+<p>The Puppetfile is a list of resources, telling Boxen where to look when downloading modules:</p>
+
+<p><code>ruby Puppetfile snippet
+github "ruby",        "7.3.0"
+</code></p>
+
+<p>The &ldquo;github&rdquo; is a function declared earlier in the Puppetfile. It just takes the name of the module + it&rsquo;s module version and pulls the module data from Boxen&rsquo;s module list:</p>
+
+<p>```ruby Puppetfile &ldquo;github&rdquo; method</p>
+
+<h1>Shortcut for a module from GitHub&rsquo;s boxen organization</h1>
+
+<p>def github(name, *args)
+  options ||= if args.last.is_a? Hash</p>
+
+<pre><code>args.last
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>{}
+</code></pre>
+
+<p>  end</p>
+
+<p>  if path = options.delete(:path)</p>
+
+<pre><code>mod name, :path =&gt; path
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>version = args.first
+options[:repo] ||= "boxen/puppet-#{name}"
+mod name, version, :github_tarball =&gt; options[:repo]
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Then, once you&rsquo;ve declared where to get your desired resources, you tell Boxen in the manifest (e.g. site.pp) that you want it to be included on this machine:</p>
+
+<p><code>ruby Boxen manifest include
+include ruby
+</code></p>
+
+<p>No extra punctuation needed. With those two things in place, Boxen will handle all the rest and get your computer configured the way you want.</p>
+
+<h4>Gotcha No. 1</h4>
+
+<p>Once Boxen was installed, I was all excited to try it out and install something I didn&rsquo;t have on my machine. The syntax for including modules in the Puppetfile looked very straight-forward. I just didn&rsquo;t know where people were getting their version numbers. To be honest, I&rsquo;m still not quite sure where to locate versions for modules, but I&rsquo;ve had the best luck using <a href="https://travis-ci.org/">Travis CI</a> and searching for Boxen modules. The module info usually contains a version. That&rsquo;s what I used for my Vagrant module&hellip;</p>
+
+<h4>Gotcha No. 2</h4>
+
+<p>There&rsquo;s a <a href="http://stackoverflow.com/questions/22352838/ruby-gem-install-json-fails-on-mavericks-and-xcode-5-1-unknown-argument-mul">compile bug</a> when running Boxen on OS X Mavericks:</p>
+
+<p>To run it successfully while in the /opt/boxen/repo (and avoid FDE):</p>
+
+<p><code>bash Mavericks vs. XCode 5.1
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future ./script/boxen --no-fde
+</code></p>
+
+<h3>Onward</h3>
+
+<p>I&rsquo;m excited to grow with Boxen and discover new ways to enhance my own workflow. Now, to keep this enthusiasm up&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Got Schooled]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/02/24/got-schooled/"/>
+    <updated>2014-02-24T15:04:03-06:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/02/24/got-schooled</id>
+    <content type="html"><![CDATA[<p>I thought I was hot stuff going through Chris Pine&rsquo;s <a href="http://pragprog.com/book/ltp2/learn-to-program"><em>Learn To Program</em></a> when I blitzed through the first nine chapters no problem. The exercises were a good challenge, but didn&rsquo;t pose too much of a threat&hellip;</p>
+
+<p>And then I got to chapter ten. In ten, Chris struck a cord with me when he challenges his readers to define his or her own <em>sort</em> method:</p>
+
+<blockquote><p>&hellip;like the Jedi who constructs his own lightsaber, you&rsquo;ll exhibit a greater mastery if you write your own sorting method.</p></blockquote>
+
+<p>Challenge accepted! That was five days ago.</p>
+
+<h3>Enter the Sorting Dragon</h3>
+
+<p>I tried everything I could think of, but still struggled with ultimately keeping track of my data.  I found a great analogy someone posted about treating the elements of your array like playing cards (having &ldquo;sorted&rdquo;, &ldquo;unsorted&rdquo;, and &ldquo;active&rdquo; groups of elements), and think of solving the problem that way. That was a good starting point, but I was still struggling because I couldn&rsquo;t find a way to selectively remove elements from the unsorted array once I had added them to the sorted array.</p>
+
+<p>So, I eventually broke down and checked Chris' solution at the end of the book. Our code was identical except for one key point of logic:</p>
+
+<h5>Me:</h5>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Add it to the sorted list.</li>
+<li>Iterate through the remaining elements.
+
+<ul>
+<li>If there was an element smaller than what was already added, replace it and push the less-small element back into the unsorted pile.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until length of sorted array matched original array.</li>
+</ol>
+
+
+<h6>Chris:</h6>
+
+<ol>
+<li>Pop an element from the original array.</li>
+<li>Assign it to a local variable. Create an empty &ldquo;unsorted&rdquo; array.</li>
+<li>Iterate through the remaning elements.
+
+<ul>
+<li>If there was a smaller element than what was reference by the variable, replace it and push the less-small element to the &ldquo;unsorted&rdquo; array.</li>
+</ul>
+</li>
+<li>Repeat (using array.each) until the variable contains the smallest element from the original array.</li>
+<li>Push that smallest element into the &ldquo;sorted&rdquo; array, and recursively pass the &ldquo;unsorted&rdquo; array to the sort method until the &ldquo;unsorted&rdquo;.length &lt;= 0.</li>
+</ol>
+
+
+<h4>Conclusion</h4>
+
+<p>Well, I have to give myself <em>some</em> credit. When I saw his answer, he and I were on the same page logic-wise. But, like a math problem, the devil is in the details. I was performing an action a bit too soon and hadn&rsquo;t separated my logic from my action: I was adding to the sorted list and <em>then</em> comparing instead of the other way around.</p>
+
+<p>All in all, I think this was a very valuable lesson for me, that I&rsquo;m not as much an &ldquo;advanced beginner&rdquo; as I thought I was. I&rsquo;m going to try to swallow my pride (which was a bit hurt, I&rsquo;ll be honest), finish the exercises in the chapter, and keep learning.</p>
+
+<p>No giving up.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First Post]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/02/18/first-post/"/>
+    <updated>2014-02-18T08:40:55-06:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/02/18/first-post</id>
+    <content type="html"><![CDATA[<h3>Thank You, Octopress</h3>
+
+<p>Round of applause for Octopress for making this &ldquo;I-have-skill-and-want-to-maintain-my-own-blog-but-I-didn&rsquo;t-go-to-school-for-web-development&rdquo; thing so easy. You see that <em>Powered by Octopress</em> at the bottom of this page? Click it.</p>
+
+<p>I&rsquo;m also really liking <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> quite a bit. I ran through a quick Markdown <a href="www.markdowntutorial.com">tutorial</a> and within 30 minutes, I feel I have enough MD skill to write this post&hellip;so <strong>that&rsquo;s</strong> something.</p>
+
+<p>On the subject of Markdown, I had no idea it was created by John Gruber of <a href="http://daringfireball.net"><em>The Daring Fireball</em></a> fame. I was even more surprised to learn that the creation of Markdown was greatly assisted by the late <a href="http://en.wikipedia.org/wiki/Aaron_Swartz">Aaron Swartz</a>. Now that I know a tiny bit about the language and I&rsquo;ve witnessed first-hand how easy it is to use, it makes perfect sense something this simple and powerful would come from a pair like those two. Although, the English major in me is having a hard time not double-spacing after every sentence&hellip;damn you, soft break!</p>
+
+<h3>WhyTF Am I Writing This???</h3>
+
+<p>Yeah, I&rsquo;ve tried to start blogs before. I had a Xanga back in the day. I think it&rsquo;s still out there, actually.  I&rsquo;ve tried keeping a word processor document on my computer with various dates and thoughts. Always failed within a week. I&rsquo;m just not driven to write; I have to work for it.</p>
+
+<p>So, <em>this</em> thing will (hopefully) be different. I was inspired by <a href="http://joshuakemp.blogspot.com"><em>Confessions of an Unlikely Developer</em></a>. Dude was a farrier (you can Google it, you have my blessing) and one day said, &ldquo;F*** it. I&rsquo;m going to be a developer.&rdquo;</p>
+
+<p>No degree.<br/>
+No overt technology background.<br/>
+Three hours of study a day.<br/>
+Attending regular coding meetups.<br/>
+Practice + practice + more practice.</p>
+
+<p>Eight months later and he&rsquo;s a Junior Developer (props to him for sure!).</p>
+
+<p>Here I am with an overt technology background (I worked as a technician at Apple, dammit!), I&rsquo;ve built websites and scripts before, and I can&rsquo;t scrape together the time to hone in and make my work goal (to code for a living) a reality?! F*** that. (I still can&rsquo;t decide how candid I want to be on this thing, so bear with my censoring for now.)</p>
+
+<p>I&rsquo;m going to use this blog to track my progress, catalog things I learn, and push myself to keep going. I love to learn, but I hate learning when I feel like it&rsquo;s going nowhere. This blog is to prove myself wrong. I&rsquo;m gonna learn me some Ruby.</p>
+
+<p><code>ruby Obligatory First Code Snippet
+puts "Hello, World!"
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
