@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Treble | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/treble/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-05-15T15:11:40-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Going Hard]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/05/15/going-hard/"/>
+    <updated>2014-05-15T13:57:29-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/05/15/going-hard</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been a while since my previous post, but quite a bit has happened. I built a little utility called &ldquo;Treble&rdquo; that I use internally to <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/ditto.1.html">ditto</a> data between Macs. Treble adds a progress bar to ditto and uses <a href="https://www.tropo.com/">Tropo</a> to text you once the copy is complete. Had to brush up on my bash scripting to make it happen, but with some persistence, that&rsquo;s another personal project I can cross off my list. :)</p>
+
+<h4>Ruby, I Love You&hellip;Every Two Months</h4>
+
+<p>I&rsquo;ve been really bad at being consistent with my studying, but not recently! <a href="http://en.wikipedia.org/wiki/Zed_Shaw">Zed Shaw</a>&rsquo;s <a href="http://learncodethehardway.org/">Learn Code the Hard Way</a> has taunted me for too long. I started with the Python book, but eventually lost interest in Python when I realized most (again, <em>most</em>) people who sing its praises are involved in some form of higher math or physics. Nothing against Python; I just found something I like better: Ruby.</p>
+
+<p>So, I tried the &ldquo;Learn Ruby the Hard Way&rdquo; book a couple of times in the past, but only made it about halfway through. <em>This</em> time, I started from scratch, paced myself, and I&rsquo;m currently at Exercise 27, &ldquo;Memorizing Logic.&rdquo; I have to remind myself to stick with it because practice is the only way to mastery. Same thing with my French. J'aime Ruby.</p>
+
+<p>To help with my memorization, I found this nifty site, <a href="http://quizlet.com/">Quizlet</a>. I searched the site for &ldquo;Learn Ruby the Hard Way logic&rdquo; and found that at least 10 other people have made online flashcard sets for Exercise 27. Without even registering, I&rsquo;m using someone else&rsquo;s flashcards to keep my logic skills sharp. not(True or False) == False.</p>
+
+<h4>Throw In Some Rails Learning, And&hellip;</h4>
+
+<p>I can&rsquo;t remember how I found it, but I stumbled upon the <a href="http://railsapps.github.io/">RailsApps</a> <a href="http://learn-rails.com/"><em>Learn Ruby on Rails</em></a> book. After skimming the first chapter, I could tell this is a great introduction before I try jumping into the deep end again with Michael Hartl&rsquo;s Rails tutorial (sick of posting links, Google it). The book includes some hand-holding, but there&rsquo;s a lot that you must do on your own. &ldquo;Configure this. Install that. Sign up for this service.&rdquo; I like that it&rsquo;s getting me prepared to actually deploy a Rails app once I&rsquo;m done with the book. Combining this with my Ruby study, and hopefully I&rsquo;ll have a solid foundation once I&rsquo;m done with both books.</p>
+
+<h4>Cha-Cha Slide</h4>
+
+<p>Back to work for me. I&rsquo;ll study some more, do my regular routine, and contemplate if I want to upload Treble to Github. In the meantime, here&rsquo;s the guts of Treble:</p>
+
+<p>```bash ditto.sh from Treble</p>
+
+<h1>!/bin/bash</h1>
+
+<p>count(){</p>
+
+<pre><code>FOLDER=$1
+echo $(find ${FOLDER} | wc -l | sed 's/[[:space:]]//g')
+</code></pre>
+
+<p>}</p>
+
+<p>size(){</p>
+
+<pre><code>FOLDER=$1
+echo $(du -s ${FOLDER} | awk '{print $1}' | sed 's/\(^[0-9]*\).*/\1/')
+</code></pre>
+
+<p>}</p>
+
+<p>sendMessage(){</p>
+
+<pre><code>TO=$1
+MESSAGE=`echo -n "$COMPUTER ditto is done." | perl -pe's/([^-_.~A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg'`
+appTokenID="&lt; hiding this &gt;"
+curl "http://api.tropo.com/1.0/sessions?action=create&amp;token=${appTokenID}&amp;numberToMessage=${TO}&amp;messageToSend=${MESSAGE}&amp;messageType=SMS" &gt; /dev/null 2&gt;&amp;1  
+</code></pre>
+
+<p>}</p>
+
+<p>SOURCE=$1
+DESTINATION=$2
+DIALOG=$3
+PHONE=$4</p>
+
+<p>COMPUTER=$(scutil &mdash;get LocalHostName)</p>
+
+<p>SCOUNT=$(count $SOURCE)
+SSIZE=$(size $SOURCE)</p>
+
+<p>ditto &mdash;nocache ${SOURCE} ${DESTINATION} &amp;</p>
+
+<p>DITTO_ID=$!</p>
+
+<p>trap &ldquo;kill $DITTO_ID 2> /dev/null&rdquo; EXIT</p>
+
+<p>while kill -0 $DITTO_ID 2> /dev/null; do</p>
+
+<pre><code>DCOUNT=$(count $DESTINATION)
+DSIZE=$(size $DESTINATION)
+PERCENT=$(bc &lt;&lt;&lt; "scale = 2; (($DSIZE/$SSIZE) * 100)" | cut -d "." -f 1)
+echo "$PERCENT $PERCENT%: $DCOUNT of $SCOUNT files copied."
+</code></pre>
+
+<p>done > >(${DIALOG}/Contents/MacOS/CocoaDialog progressbar &mdash;stoppable &mdash;title &ldquo;Treble&rdquo;)</p>
+
+<p>trap &ndash; EXIT</p>
+
+<p>sendMessage $PHONE</p>
+
+<p>${DIALOG}/Contents/MacOS/CocoaDialog msgbox &mdash;title Treble &mdash;text &ldquo;Copy Complete!&rdquo; &mdash;informative-text &ldquo;$DCOUNT of $SCOUNT files copied.&rdquo; &mdash;button1 &ldquo;OK&rdquo;</p>
+
+<p>exit 0
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

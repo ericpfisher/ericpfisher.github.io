@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-My Octopress Page is coming soon &hellip;
-=======
 
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
@@ -12,7 +9,7 @@ My Octopress Page is coming soon &hellip;
   <meta name="author" content="Eric Fisher">
 
   
-  <meta name="description" content="Before the weekend, I decided to poke around Boxen and see what all the fuss is about. I&rsquo;ve toyed around with Puppet, but struggled when it &hellip;">
+  <meta name="description" content="It&rsquo;s been a while since my previous post, but quite a bit has happened. I built a little utility called &ldquo;Treble&rdquo; that I use &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +65,161 @@ My Octopress Page is coming soon &hellip;
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/15/going-hard/">Going Hard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-15T13:57:29-05:00" pubdate data-updated="true">May 15<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It&rsquo;s been a while since my previous post, but quite a bit has happened. I built a little utility called &ldquo;Treble&rdquo; that I use internally to <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/ditto.1.html">ditto</a> data between Macs. Treble adds a progress bar to ditto and uses <a href="https://www.tropo.com/">Tropo</a> to text you once the copy is complete. Had to brush up on my bash scripting to make it happen, but with some persistence, that&rsquo;s another personal project I can cross off my list. :)</p>
+
+<h4>Ruby, I Love You&hellip;Every Two Months</h4>
+
+<p>I&rsquo;ve been really bad at being consistent with my studying, but not recently! <a href="http://en.wikipedia.org/wiki/Zed_Shaw">Zed Shaw</a>&rsquo;s <a href="http://learncodethehardway.org/">Learn Code the Hard Way</a> has taunted me for too long. I started with the Python book, but eventually lost interest in Python when I realized most (again, <em>most</em>) people who sing its praises are involved in some form of higher math or physics. Nothing against Python; I just found something I like better: Ruby.</p>
+
+<p>So, I tried the &ldquo;Learn Ruby the Hard Way&rdquo; book a couple of times in the past, but only made it about halfway through. <em>This</em> time, I started from scratch, paced myself, and I&rsquo;m currently at Exercise 27, &ldquo;Memorizing Logic.&rdquo; I have to remind myself to stick with it because practice is the only way to mastery. Same thing with my French. J&#8217;aime Ruby.</p>
+
+<p>To help with my memorization, I found this nifty site, <a href="http://quizlet.com/">Quizlet</a>. I searched the site for &ldquo;Learn Ruby the Hard Way logic&rdquo; and found that at least 10 other people have made online flashcard sets for Exercise 27. Without even registering, I&rsquo;m using someone else&rsquo;s flashcards to keep my logic skills sharp. not(True or False) == False.</p>
+
+<h4>Throw In Some Rails Learning, And&hellip;</h4>
+
+<p>I can&rsquo;t remember how I found it, but I stumbled upon the <a href="http://railsapps.github.io/">RailsApps</a> <a href="http://learn-rails.com/"><em>Learn Ruby on Rails</em></a> book. After skimming the first chapter, I could tell this is a great introduction before I try jumping into the deep end again with Michael Hartl&rsquo;s Rails tutorial (sick of posting links, Google it). The book includes some hand-holding, but there&rsquo;s a lot that you must do on your own. &ldquo;Configure this. Install that. Sign up for this service.&rdquo; I like that it&rsquo;s getting me prepared to actually deploy a Rails app once I&rsquo;m done with the book. Combining this with my Ruby study, and hopefully I&rsquo;ll have a solid foundation once I&rsquo;m done with both books.</p>
+
+<h4>Cha-Cha Slide</h4>
+
+<p>Back to work for me. I&rsquo;ll study some more, do my regular routine, and contemplate if I want to upload Treble to Github. In the meantime, here&rsquo;s the guts of Treble:</p>
+
+<figure class='code'><figcaption><span>ditto.sh from Treble</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'>count<span class="o">(){</span>
+</span><span class='line'>  <span class="nv">FOLDER</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="k">$(</span>find <span class="k">${</span><span class="nv">FOLDER</span><span class="k">}</span> | wc -l | sed <span class="s1">&#39;s/[[:space:]]//g&#39;</span><span class="k">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>size<span class="o">(){</span>
+</span><span class='line'>  <span class="nv">FOLDER</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="k">$(</span>du -s <span class="k">${</span><span class="nv">FOLDER</span><span class="k">}</span> | awk <span class="s1">&#39;{print $1}&#39;</span> | sed <span class="s1">&#39;s/\(^[0-9]*\).*/\1/&#39;</span><span class="k">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>sendMessage<span class="o">(){</span>
+</span><span class='line'>  <span class="nv">TO</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>  <span class="nv">MESSAGE</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> -n <span class="s2">&quot;$COMPUTER ditto is done.&quot;</span> | perl -pe<span class="s1">&#39;s/([^-_.~A-Za-z0-9])/sprintf(&quot;%%%02X&quot;, ord($1))/seg&#39;</span><span class="sb">`</span>
+</span><span class='line'>  <span class="nv">appTokenID</span><span class="o">=</span><span class="s2">&quot;&lt; hiding this &gt;&quot;</span>
+</span><span class='line'>  curl <span class="s2">&quot;http://api.tropo.com/1.0/sessions?action=create&amp;token=${appTokenID}&amp;numberToMessage=${TO}&amp;messageToSend=${MESSAGE}&amp;messageType=SMS&quot;</span> &gt; /dev/null 2&gt;&amp;1  
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">SOURCE</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'><span class="nv">DESTINATION</span><span class="o">=</span><span class="nv">$2</span>
+</span><span class='line'><span class="nv">DIALOG</span><span class="o">=</span><span class="nv">$3</span>
+</span><span class='line'><span class="nv">PHONE</span><span class="o">=</span><span class="nv">$4</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">COMPUTER</span><span class="o">=</span><span class="k">$(</span>scutil --get LocalHostName<span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">SCOUNT</span><span class="o">=</span><span class="k">$(</span>count <span class="nv">$SOURCE</span><span class="k">)</span>
+</span><span class='line'><span class="nv">SSIZE</span><span class="o">=</span><span class="k">$(</span>size <span class="nv">$SOURCE</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>ditto --nocache <span class="k">${</span><span class="nv">SOURCE</span><span class="k">}</span> <span class="k">${</span><span class="nv">DESTINATION</span><span class="k">}</span> &amp;
+</span><span class='line'>
+</span><span class='line'><span class="nv">DITTO_ID</span><span class="o">=</span><span class="nv">$!</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">trap</span> <span class="s2">&quot;kill $DITTO_ID 2&gt; /dev/null&quot;</span> EXIT
+</span><span class='line'>
+</span><span class='line'><span class="k">while </span><span class="nb">kill</span> -0 <span class="nv">$DITTO_ID</span> 2&gt; /dev/null; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span><span class="nv">DCOUNT</span><span class="o">=</span><span class="k">$(</span>count <span class="nv">$DESTINATION</span><span class="k">)</span>
+</span><span class='line'>  <span class="nv">DSIZE</span><span class="o">=</span><span class="k">$(</span>size <span class="nv">$DESTINATION</span><span class="k">)</span>
+</span><span class='line'>  <span class="nv">PERCENT</span><span class="o">=</span><span class="k">$(</span>bc <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;scale = 2; (($DSIZE/$SSIZE) * 100)&quot;</span> | cut -d <span class="s2">&quot;.&quot;</span> -f 1<span class="k">)</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;$PERCENT $PERCENT%: $DCOUNT of $SCOUNT files copied.&quot;</span>
+</span><span class='line'><span class="k">done</span> &gt; &gt;<span class="o">(</span><span class="k">${</span><span class="nv">DIALOG</span><span class="k">}</span>/Contents/MacOS/CocoaDialog progressbar --stoppable --title <span class="s2">&quot;Treble&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">trap</span> - EXIT
+</span><span class='line'>
+</span><span class='line'>sendMessage <span class="nv">$PHONE</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">${</span><span class="nv">DIALOG</span><span class="k">}</span>/Contents/MacOS/CocoaDialog msgbox --title Treble --text <span class="s2">&quot;Copy Complete!&quot;</span> --informative-text <span class="s2">&quot;$DCOUNT of $SCOUNT files copied.&quot;</span> --button1 <span class="s2">&quot;OK&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">exit </span>0
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -359,6 +511,10 @@ Practice + practice + more practice.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/05/15/going-hard/">Going Hard</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/21/boxen/">Boxen</a>
       </li>
     
@@ -441,4 +597,3 @@ Practice + practice + more practice.</p>
 
 </body>
 </html>
->>>>>>> 3b53bb8ff6c776851ebdeefef82a1a86ce35fea7
