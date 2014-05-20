@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Git | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-05-20T11:36:33-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Learning Rails]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/05/20/learning-rails/"/>
+    <updated>2014-05-20T09:42:05-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/05/20/learning-rails</id>
+    <content type="html"><![CDATA[<p>Like I mentioned in my <a href="http://ericpfisher.github.io/blog/2014/05/15/going-hard/">previous post</a>, working through the <em>Learn Ruby on Rails</em> book. So far, so good. Finished chapters 11 and 12 today.</p>
+
+<h4>Chapter 11: Gems</h4>
+
+<p>Okay, so you can probably find everything I&rsquo;m about to say on other sites, but I&rsquo;m writing it down for my own learning, something you should do, too!</p>
+
+<p>Gems (in Ruby) are libraries of code, hosted at <a href="https://rubygems.org">RubyGems</a>. Anyone can make a Ruby gem and push it to RubyGems, but the real test is the popularity of the gem: if it&rsquo;s a good product and well-supported, that cycle will continue by more people using the gem, discovering new bugs, contributing back into fixing the gem, and extending the usefulness. The less awesome your gem is, the fewer people use it. Some gems are tried and true; others are more obscure. It&rsquo;s up to us as developers to figure out which tool is right for the job.</p>
+
+<p>To add a new gem to your project, you must first add it to the Gemfile:
+<code>ruby Gemfile
+gem 'the-best-gem-ever', '1.0'
+</code></p>
+
+<p>To declare the version of the gem installed, you can follow the gem name with one of the following:</p>
+
+<ul>
+<li>  explicit version number, e.g. &lsquo;1.0&rsquo;</li>
+<li>  optimistic version &ndash; &ldquo;this version, or newer&rdquo;, e.g. <code>'&gt;= 1.0'</code></li>
+<li>  pessimistic version &ndash; &ldquo;this version, or older&rdquo;, e.g. <code>'~&gt; 1.0'</code></li>
+</ul>
+
+
+<p>The more specific the version listed, the more exact of gem build you&rsquo;ll specify. For example, if you listed <code>'~&gt; 1.0.0'</code>, bundler would use 1.0.x, but nothing at or above 1.1. Also, if you specified <code>'~&gt; 1.0'</code>, bundler would use 1.x, but nothing at or above 2.0. Declaring this is essential when making sure all the components of your Rails app will play nicely with each other. :)</p>
+
+<p>After specifying all the gems you&rsquo;ll want/need for your project, navigate to the project directory and run <code>bundle install</code> to install the gems listed in the Gemfile. Then, to see which gems are loaded into the environment, run <code>gem list</code>.</p>
+
+<h4>Chapter 12: Configure</h4>
+
+<p>Now that we&rsquo;ve installed all the gems for the project, it&rsquo;s time to configure them so the Rails app can use them.</p>
+
+<p>The chapter goes over editing your <code>config/application.yml</code> from the <a href="https://rubygems.org/gems/figaro">figaro gem</a> and your <code>config/environment/developent/rb</code> to set environment variables related to the outbound email account for your Rails app. The tutorial has you set up a <a href="http://mailchimp.com">MailChimp</a> account and plug in the MailChimp API key along with your Gmail account (<em>make a new one if you have to!</em>). Then, you configure your development environment to use the environment variables defined in the <code>application.yml</code>. So far, so good.</p>
+
+<h4>More to come&hellip;</h4>
+
+<p>The next chapter starts content creation, beginning with static pages. I&rsquo;m going to do more <em>Learn Ruby the Hard Way</em>, then practice logic.</p>
+]]></content>
+  </entry>
+  
+</feed>

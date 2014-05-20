@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Learning Rails - Fish(er)</title>
+  <meta name="author" content="Eric Fisher">
+
+  
+  <meta name="description" content="Like I mentioned in my previous post, working through the Learn Ruby on Rails book. So far, so good. Finished chapters 11 and 12 today. Chapter 11: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ericpfisher.github.io/blog/2014/05/20/learning-rails">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Fish(er)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Fish(er)</a></h1>
+  
+    <h2>...learning stuff...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ericpfisher.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Learning Rails</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-20T09:42:05-05:00" pubdate data-updated="true">May 20<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Like I mentioned in my <a href="http://ericpfisher.github.io/blog/2014/05/15/going-hard/">previous post</a>, working through the <em>Learn Ruby on Rails</em> book. So far, so good. Finished chapters 11 and 12 today.</p>
+
+<h4>Chapter 11: Gems</h4>
+
+<p>Okay, so you can probably find everything I&rsquo;m about to say on other sites, but I&rsquo;m writing it down for my own learning, something you should do, too!</p>
+
+<p>Gems (in Ruby) are libraries of code, hosted at <a href="https://rubygems.org">RubyGems</a>. Anyone can make a Ruby gem and push it to RubyGems, but the real test is the popularity of the gem: if it&rsquo;s a good product and well-supported, that cycle will continue by more people using the gem, discovering new bugs, contributing back into fixing the gem, and extending the usefulness. The less awesome your gem is, the fewer people use it. Some gems are tried and true; others are more obscure. It&rsquo;s up to us as developers to figure out which tool is right for the job.</p>
+
+<p>To add a new gem to your project, you must first add it to the Gemfile:</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;the-best-gem-ever&#39;</span><span class="p">,</span> <span class="s1">&#39;1.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To declare the version of the gem installed, you can follow the gem name with one of the following:</p>
+
+<ul>
+<li>  explicit version number, e.g. &lsquo;1.0&rsquo;</li>
+<li>  optimistic version &ndash; &ldquo;this version, or newer&rdquo;, e.g. <code>'&gt;= 1.0'</code></li>
+<li>  pessimistic version &ndash; &ldquo;this version, or older&rdquo;, e.g. <code>'~&gt; 1.0'</code></li>
+</ul>
+
+
+<p>The more specific the version listed, the more exact of gem build you&rsquo;ll specify. For example, if you listed <code>'~&gt; 1.0.0'</code>, bundler would use 1.0.x, but nothing at or above 1.1. Also, if you specified <code>'~&gt; 1.0'</code>, bundler would use 1.x, but nothing at or above 2.0. Declaring this is essential when making sure all the components of your Rails app will play nicely with each other. :)</p>
+
+<p>After specifying all the gems you&rsquo;ll want/need for your project, navigate to the project directory and run <code>bundle install</code> to install the gems listed in the Gemfile. Then, to see which gems are loaded into the environment, run <code>gem list</code>.</p>
+
+<h4>Chapter 12: Configure</h4>
+
+<p>Now that we&rsquo;ve installed all the gems for the project, it&rsquo;s time to configure them so the Rails app can use them.</p>
+
+<p>The chapter goes over editing your <code>config/application.yml</code> from the <a href="https://rubygems.org/gems/figaro">figaro gem</a> and your <code>config/environment/developent/rb</code> to set environment variables related to the outbound email account for your Rails app. The tutorial has you set up a <a href="http://mailchimp.com">MailChimp</a> account and plug in the MailChimp API key along with your Gmail account (<em>make a new one if you have to!</em>). Then, you configure your development environment to use the environment variables defined in the <code>application.yml</code>. So far, so good.</p>
+
+<h4>More to come&hellip;</h4>
+
+<p>The next chapter starts content creation, beginning with static pages. I&rsquo;m going to do more <em>Learn Ruby the Hard Way</em>, then practice logic.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Eric Fisher</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-20T09:42:05-05:00" pubdate data-updated="true">May 20<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mailchimp/'>MailChimp</a>, <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ericpfisher.github.io/blog/2014/05/20/learning-rails/" data-via="andthankyour" data-counturl="http://ericpfisher.github.io/blog/2014/05/20/learning-rails/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/15/going-hard/" title="Previous Post: Going Hard">&laquo; Going Hard</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/20/learning-rails/">Learning Rails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/15/going-hard/">Going Hard</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/21/boxen/">Boxen</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/24/got-schooled/">Got Schooled</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/18/first-post/">First Post</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ericpfisher">@ericpfisher</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ericpfisher',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Eric Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
