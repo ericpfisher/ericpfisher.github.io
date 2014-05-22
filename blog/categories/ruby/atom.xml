@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Fish(er)]]></title>
   <link href="http://ericpfisher.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://ericpfisher.github.io/"/>
-  <updated>2014-05-20T11:36:33-05:00</updated>
+  <updated>2014-05-22T14:33:52-05:00</updated>
   <id>http://ericpfisher.github.io/</id>
   <author>
     <name><![CDATA[Eric Fisher]]></name>
@@ -12,6 +12,69 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Moar Railz]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/05/22/moar-railz/"/>
+    <updated>2014-05-22T11:52:24-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/05/22/moar-railz</id>
+    <content type="html"><![CDATA[<h4>Chapter 13: Static Pages and Routing</h4>
+
+<p>TIL (Today, I learned): Rails uses the pages in the <code>public</code> directory as the default pages.  If you have an <code>index.html</code> in your <code>public</code> folder, chances are Rails will display that by default.  This is Web Server 101.</p>
+
+<p>What I <strong><em>didn&rsquo;t</em></strong> know was that configuring routing is as easy as changing a little file called <code>config/routes.rb</code>.  The file determines routing paths for the Rails application itself.  Without diving too deep, and using my limited knowledge, let me make deductions from the following code snippet:</p>
+
+<p><code>ruby routes.rb
+LearnRails::Application.routes.draw do
+  root to: redirect('/about.html')
+end
+</code></p>
+
+<p>Takeaways:</p>
+
+<ul>
+<li><p>  <code>LearnRails</code> matches the application naming of <code>learn-rails</code> when I ran <code>rails new learn-rails</code>. The application is an object itself, and by method-chaining <code>Application.routes.draw</code>, I re-configured the application to redirect the <code>root</code> path to <code>/about.html</code>.</p></li>
+<li><p>  The <code>do/end</code> block is kind of like a <em>for</em> loop.  However, it looks like with this loop, it merely declares what the routing should be. I wonder if multiple routes can be specified in this routing config file.</p></li>
+</ul>
+
+
+<h4>Chapter 14: Request and Response</h4>
+
+<p>This chapter covers two things:
+  1. A simplified look at the exchange between web browser and web server.
+  2. The basics of the <a href="http://en.wikipedia.org/wiki/Model%E2%80%93View%E2%80%93Controller">model-view-controller</a> paradigm for programming.</p>
+
+<p>1&hellip;For the first subject, I just verified things I had already learned when I built the Loaner Checkout system (see git repo on the right of the page). Being already familiar with the HTTP request methods GET and POST, I grasped this concept easily:</p>
+
+<blockquote><p><em>Web browsers request documents from a web server, and the web server responds with either the requested content or an error explaning why the request could not be completed.</em></p></blockquote>
+
+<p>So, in a nutshell, it&rsquo;s like you&rsquo;re opening a Word document on your computer&hellip;but you&rsquo;re getting the documents from a server somewhere on the interwebs&hellip;and your browser is the &ldquo;application&rdquo; that understands how to open/render HTML documents (plus CSS, JavaScript, etc.).  Pretty straightforward.</p>
+
+<p>After the request has been completed, a &ldquo;DOM Ready&rdquo; event fires in the browser, passing control to client-side technologies for execution, e.g. JavaScript, jQuery, AJAX, etc.</p>
+
+<p>2&hellip;MVC, taken from <a href="http://en.wikipedia.org/wiki/Model%E2%80%93View%E2%80%93Controller">Wikipedia</a>:</p>
+
+<blockquote><ul>
+<li> A <strong>controller</strong> can send commands to the model to update the model&rsquo;s state (e.g. editing a document).  It can also send commands to its associated view to change the view&rsquo;s presentation of the model (e.g. by scrolling through a document).</li>
+<li> A <strong>model</strong> notifies its associated views and controllers when there has been a change in its state.  This notification allows the views to produce updated output, and the controllers to change the available set of commands.  In some cases an MVC implementation might instead be &ldquo;passive,&rdquo; so that other components must poll the model for updates rather than being notified.</li>
+<li> A <strong>view</strong> requests information from the model that it needs for generating an output representation to the user.</li>
+</ul>
+</blockquote>
+
+<p>Prior to the controller, a request gets passed to the Rails application router (<code>config/routes.rb</code>). The router (file) determines which controller handles the request.</p>
+
+<p>The controller then interacts with the models (data) and the views (layout) and responds to the request by combining elements received from both.  Here&rsquo;s a simple example:</p>
+
+<ol>
+<li> I log into a web page. At the top of the page, I see &ldquo;Welcome, Eric.&rdquo;</li>
+<li> When I logged in, the controller commanded the model to update &ldquo;Welcome, .&rdquo; to &ldquo;Welcome, Eric.&rdquo;</li>
+<li> The model notifies the view that it should display &ldquo;Welcome, Eric.&rdquo; and generates the HTML content to be rendered on my computer screen.</li>
+</ol>
+
+
+<p>This is a really simplified version of MVC cycle, and it&rsquo;s possibly incomplete.  I understand the general theory, but knowing exactly which component does what is something I&rsquo;m still learning.  For more information, check out the Wikipedia article I linked earlier in the post (twice!).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Learning Rails]]></title>
@@ -296,43 +359,6 @@ ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future ./script/
 <p>All in all, I think this was a very valuable lesson for me, that I&rsquo;m not as much an &ldquo;advanced beginner&rdquo; as I thought I was. I&rsquo;m going to try to swallow my pride (which was a bit hurt, I&rsquo;ll be honest), finish the exercises in the chapter, and keep learning.</p>
 
 <p>No giving up.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[First Post]]></title>
-    <link href="http://ericpfisher.github.io/blog/2014/02/18/first-post/"/>
-    <updated>2014-02-18T08:40:55-06:00</updated>
-    <id>http://ericpfisher.github.io/blog/2014/02/18/first-post</id>
-    <content type="html"><![CDATA[<h3>Thank You, Octopress</h3>
-
-<p>Round of applause for Octopress for making this &ldquo;I-have-skill-and-want-to-maintain-my-own-blog-but-I-didn&rsquo;t-go-to-school-for-web-development&rdquo; thing so easy. You see that <em>Powered by Octopress</em> at the bottom of this page? Click it.</p>
-
-<p>I&rsquo;m also really liking <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> quite a bit. I ran through a quick Markdown <a href="www.markdowntutorial.com">tutorial</a> and within 30 minutes, I feel I have enough MD skill to write this post&hellip;so <strong>that&rsquo;s</strong> something.</p>
-
-<p>On the subject of Markdown, I had no idea it was created by John Gruber of <a href="http://daringfireball.net"><em>The Daring Fireball</em></a> fame. I was even more surprised to learn that the creation of Markdown was greatly assisted by the late <a href="http://en.wikipedia.org/wiki/Aaron_Swartz">Aaron Swartz</a>. Now that I know a tiny bit about the language and I&rsquo;ve witnessed first-hand how easy it is to use, it makes perfect sense something this simple and powerful would come from a pair like those two. Although, the English major in me is having a hard time not double-spacing after every sentence&hellip;damn you, soft break!</p>
-
-<h3>WhyTF Am I Writing This???</h3>
-
-<p>Yeah, I&rsquo;ve tried to start blogs before. I had a Xanga back in the day. I think it&rsquo;s still out there, actually.  I&rsquo;ve tried keeping a word processor document on my computer with various dates and thoughts. Always failed within a week. I&rsquo;m just not driven to write; I have to work for it.</p>
-
-<p>So, <em>this</em> thing will (hopefully) be different. I was inspired by <a href="http://joshuakemp.blogspot.com"><em>Confessions of an Unlikely Developer</em></a>. Dude was a farrier (you can Google it, you have my blessing) and one day said, &ldquo;F*** it. I&rsquo;m going to be a developer.&rdquo;</p>
-
-<p>No degree.<br/>
-No overt technology background.<br/>
-Three hours of study a day.<br/>
-Attending regular coding meetups.<br/>
-Practice + practice + more practice.</p>
-
-<p>Eight months later and he&rsquo;s a Junior Developer (props to him for sure!).</p>
-
-<p>Here I am with an overt technology background (I worked as a technician at Apple, dammit!), I&rsquo;ve built websites and scripts before, and I can&rsquo;t scrape together the time to hone in and make my work goal (to code for a living) a reality?! F*** that. (I still can&rsquo;t decide how candid I want to be on this thing, so bear with my censoring for now.)</p>
-
-<p>I&rsquo;m going to use this blog to track my progress, catalog things I learn, and push myself to keep going. I love to learn, but I hate learning when I feel like it&rsquo;s going nowhere. This blog is to prove myself wrong. I&rsquo;m gonna learn me some Ruby.</p>
-
-<p><code>ruby Obligatory First Code Snippet
-puts "Hello, World!"
-</code></p>
 ]]></content>
   </entry>
   

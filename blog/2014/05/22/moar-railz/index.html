@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Moar Railz - Fish(er)</title>
+  <meta name="author" content="Eric Fisher">
+
+  
+  <meta name="description" content="Chapter 13: Static Pages and Routing TIL (Today, I learned): Rails uses the pages in the public directory as the default pages. If you have an index. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ericpfisher.github.io/blog/2014/05/22/moar-railz">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Fish(er)" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Fish(er)</a></h1>
+  
+    <h2>...learning stuff...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ericpfisher.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Moar Railz</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T11:52:24-05:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4>Chapter 13: Static Pages and Routing</h4>
+
+<p>TIL (Today, I learned): Rails uses the pages in the <code>public</code> directory as the default pages.  If you have an <code>index.html</code> in your <code>public</code> folder, chances are Rails will display that by default.  This is Web Server 101.</p>
+
+<p>What I <strong><em>didn&rsquo;t</em></strong> know was that configuring routing is as easy as changing a little file called <code>config/routes.rb</code>.  The file determines routing paths for the Rails application itself.  Without diving too deep, and using my limited knowledge, let me make deductions from the following code snippet:</p>
+
+<figure class='code'><figcaption><span>routes.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">LearnRails</span><span class="p">:</span><span class="ss">:Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">root</span> <span class="ss">to</span><span class="p">:</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/about.html&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Takeaways:</p>
+
+<ul>
+<li><p>  <code>LearnRails</code> matches the application naming of <code>learn-rails</code> when I ran <code>rails new learn-rails</code>. The application is an object itself, and by method-chaining <code>Application.routes.draw</code>, I re-configured the application to redirect the <code>root</code> path to <code>/about.html</code>.</p></li>
+<li><p>  The <code>do/end</code> block is kind of like a <em>for</em> loop.  However, it looks like with this loop, it merely declares what the routing should be. I wonder if multiple routes can be specified in this routing config file.</p></li>
+</ul>
+
+
+<h4>Chapter 14: Request and Response</h4>
+
+<p>This chapter covers two things:
+  1. A simplified look at the exchange between web browser and web server.
+  2. The basics of the <a href="http://en.wikipedia.org/wiki/Model%E2%80%93View%E2%80%93Controller">model-view-controller</a> paradigm for programming.</p>
+
+<p>1&hellip;For the first subject, I just verified things I had already learned when I built the Loaner Checkout system (see git repo on the right of the page). Being already familiar with the HTTP request methods GET and POST, I grasped this concept easily:</p>
+
+<blockquote><p><em>Web browsers request documents from a web server, and the web server responds with either the requested content or an error explaning why the request could not be completed.</em></p></blockquote>
+
+<p>So, in a nutshell, it&rsquo;s like you&rsquo;re opening a Word document on your computer&hellip;but you&rsquo;re getting the documents from a server somewhere on the interwebs&hellip;and your browser is the &ldquo;application&rdquo; that understands how to open/render HTML documents (plus CSS, JavaScript, etc.).  Pretty straightforward.</p>
+
+<p>After the request has been completed, a &ldquo;DOM Ready&rdquo; event fires in the browser, passing control to client-side technologies for execution, e.g. JavaScript, jQuery, AJAX, etc.</p>
+
+<p>2&hellip;MVC, taken from <a href="http://en.wikipedia.org/wiki/Model%E2%80%93View%E2%80%93Controller">Wikipedia</a>:</p>
+
+<blockquote><ul>
+<li> A <strong>controller</strong> can send commands to the model to update the model&rsquo;s state (e.g. editing a document).  It can also send commands to its associated view to change the view&rsquo;s presentation of the model (e.g. by scrolling through a document).</li>
+<li> A <strong>model</strong> notifies its associated views and controllers when there has been a change in its state.  This notification allows the views to produce updated output, and the controllers to change the available set of commands.  In some cases an MVC implementation might instead be &ldquo;passive,&rdquo; so that other components must poll the model for updates rather than being notified.</li>
+<li> A <strong>view</strong> requests information from the model that it needs for generating an output representation to the user.</li>
+</ul>
+</blockquote>
+
+<p>Prior to the controller, a request gets passed to the Rails application router (<code>config/routes.rb</code>). The router (file) determines which controller handles the request.</p>
+
+<p>The controller then interacts with the models (data) and the views (layout) and responds to the request by combining elements received from both.  Here&rsquo;s a simple example:</p>
+
+<ol>
+<li> I log into a web page. At the top of the page, I see &ldquo;Welcome, Eric.&rdquo;</li>
+<li> When I logged in, the controller commanded the model to update &ldquo;Welcome, .&rdquo; to &ldquo;Welcome, Eric.&rdquo;</li>
+<li> The model notifies the view that it should display &ldquo;Welcome, Eric.&rdquo; and generates the HTML content to be rendered on my computer screen.</li>
+</ol>
+
+
+<p>This is a really simplified version of MVC cycle, and it&rsquo;s possibly incomplete.  I understand the general theory, but knowing exactly which component does what is something I&rsquo;m still learning.  For more information, check out the Wikipedia article I linked earlier in the post (twice!).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Eric Fisher</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-22T11:52:24-05:00" pubdate data-updated="true">May 22<span>nd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ericpfisher.github.io/blog/2014/05/22/moar-railz/" data-via="andthankyour" data-counturl="http://ericpfisher.github.io/blog/2014/05/22/moar-railz/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/20/learning-rails/" title="Previous Post: Learning Rails">&laquo; Learning Rails</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/22/moar-railz/">Moar Railz</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/20/learning-rails/">Learning Rails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/15/going-hard/">Going Hard</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/21/boxen/">Boxen</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/24/got-schooled/">Got Schooled</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ericpfisher">@ericpfisher</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ericpfisher',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Eric Fisher -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
