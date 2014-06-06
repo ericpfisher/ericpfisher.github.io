@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Learning | Fish(er)]]></title>
   <link href="http://ericpfisher.github.io/blog/categories/learning/atom.xml" rel="self"/>
   <link href="http://ericpfisher.github.io/"/>
-  <updated>2014-06-06T16:35:33-05:00</updated>
+  <updated>2014-06-06T16:36:19-05:00</updated>
   <id>http://ericpfisher.github.io/</id>
   <author>
     <name><![CDATA[Eric Fisher]]></name>
@@ -64,7 +64,7 @@ The problem is that</code>sort<code>was sorting the third octet's first digit in
 sort -t . -k 1,1n -k 2,2n -k 3,3n
 </code></p>
 
-<p>Breaking it down in English, the <code>sort</code> command separates fields by each decimal (<code>-t .</code>). Then, <code>sort</code> sorts the first field (<code>-k 1,1n</code>), second field (<code>-k 2,2n</code>).</p>
+<p>Breaking it down in English, the <code>sort</code> command separates fields by each decimal (<code>-t .</code>). Then, <code>sort</code> sorts the first field (<code>-k 1,1n</code>), second field (<code>-k 2,2n</code>), and so on.</p>
 
 <p>IMPORTANT NOTE: the reason you specify <code>-k x,xn</code> is to have <code>sort</code> <strong><em>n</em></strong>umerically sort each field separately. That way, instead of thinking the 1 in x.x.10 is less than x.x.9, you have &ldquo;10&rdquo; vs. &ldquo;9&rdquo;, and 10 is obviously larger than 9.</p>
 
