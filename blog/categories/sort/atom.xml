@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sort | Fish(er)]]></title>
+  <link href="http://ericpfisher.github.io/blog/categories/sort/atom.xml" rel="self"/>
+  <link href="http://ericpfisher.github.io/"/>
+  <updated>2014-06-06T16:35:33-05:00</updated>
+  <id>http://ericpfisher.github.io/</id>
+  <author>
+    <name><![CDATA[Eric Fisher]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Bash's Sort]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/06/06/bashs-sort/"/>
+    <updated>2014-06-06T15:20:20-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/06/06/bashs-sort</id>
+    <content type="html"><![CDATA[<h4>Small Victory</h4>
+
+<p>So, Mac Engineering pings me today, asking me to solve a problem. Here&rsquo;s the original script:</p>
+
+<p>```bash Sort Problem
+UPDATE_VERSION=&ldquo;12.1.9&rdquo;
+NEWLINE=$&lsquo;\n&rsquo;</p>
+
+<p>if [ &ldquo;$UPDATE_VERSION&rdquo; = &ldquo;12.1.9&rdquo; ]; then</p>
+
+<pre><code>INSTALLED_VERSION="12.1.10"
+</code></pre>
+
+<p>else</p>
+
+<pre><code>exit 1
+</code></pre>
+
+<p>fi</p>
+
+<p>HIGHEST_VERSION=<code>echo "${UPDATE_VERSION}${NEWLINE}${INSTALLED_VERSION}" | sort | tail -n 1</code>
+echo &ldquo;$HIGHEST_VERSION&rdquo;
+if [ &ldquo;${INSTALLED_VERSION}&rdquo; != &ldquo;${HIGHEST_VERSION}&rdquo; ];
+then</p>
+
+<pre><code>exit 0
+</code></pre>
+
+<p>fi</p>
+
+<p>exit 1
+<code>``
+The problem is that</code>sort<code>was sorting the third octet's first digit instead of taking it as a whole. So, while we wanted "12.1.10" to show up from the</code>tail`, we were getting &ldquo;12.1.9&rdquo; back.</p>
+
+<h4>TO TEH INTERNETZ</h4>
+
+<p>Did some research (which was actually reading the man page of sort), and I came across the <code>-k</code> flag:</p>
+
+<blockquote><p>The recommended, POSIX, option for specifying a sort field.  The field consists of the part of the line between POS1 and POS2 (or the end of the line, if POS2 is omitted), <em>inclusive</em>.  Fields and character positions are numbered starting with 1.  So to sort on the second field, you&rsquo;d use `-k 2,2' See below for more examples.</p></blockquote>
+
+<p>After playing around with a few attempts, I finally came up with&hellip;</p>
+
+<p><code>bash Awesome Version Sort
+sort -t . -k 1,1n -k 2,2n -k 3,3n
+</code></p>
+
+<p>Breaking it down in English, the <code>sort</code> command separates fields by each decimal (<code>-t .</code>). Then, <code>sort</code> sorts the first field (<code>-k 1,1n</code>), second field (<code>-k 2,2n</code>).</p>
+
+<p>IMPORTANT NOTE: the reason you specify <code>-k x,xn</code> is to have <code>sort</code> <strong><em>n</em></strong>umerically sort each field separately. That way, instead of thinking the 1 in x.x.10 is less than x.x.9, you have &ldquo;10&rdquo; vs. &ldquo;9&rdquo;, and 10 is obviously larger than 9.</p>
+
+<p>Seems to work like a charm&hellip;and scalable, too! If you need to sort another octet in your versioning, just add another sort field like <code>-k 4,4n</code>. Learned something new today, and helped Engineering in the process. What a great day!</p>
+]]></content>
+  </entry>
+  
+</feed>

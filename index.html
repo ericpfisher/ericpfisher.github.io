@@ -9,7 +9,17 @@
   <meta name="author" content="Eric Fisher">
 
   
-  <meta name="description" content="Chapter 13: Static Pages and Routing TIL (Today, I learned): Rails uses the pages in the public directory as the default pages. If you have an index. &hellip;">
+  <meta name="description" content="Small Victory So, Mac Engineering pings me today, asking me to solve a problem. Here&rsquo;s the original script: Sort Problem1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +75,102 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/06/bashs-sort/">Bash&#8217;s Sort</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T15:20:20-05:00" pubdate data-updated="true">Jun 6<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>Small Victory</h4>
+
+<p>So, Mac Engineering pings me today, asking me to solve a problem. Here&rsquo;s the original script:</p>
+
+<figure class='code'><figcaption><span>Sort Problem</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">UPDATE_VERSION</span><span class="o">=</span><span class="s2">&quot;12.1.9&quot;</span>
+</span><span class='line'><span class="nv">NEWLINE</span><span class="o">=</span><span class="s1">$&#39;\n&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$UPDATE_VERSION&quot;</span> <span class="o">=</span> <span class="s2">&quot;12.1.9&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nv">INSTALLED_VERSION</span><span class="o">=</span><span class="s2">&quot;12.1.10&quot;</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">  </span><span class="nb">exit </span>1
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">HIGHEST_VERSION</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&quot;${UPDATE_VERSION}${NEWLINE}${INSTALLED_VERSION}&quot;</span> | sort | tail -n 1<span class="sb">`</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;$HIGHEST_VERSION&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;${INSTALLED_VERSION}&quot;</span> !<span class="o">=</span> <span class="s2">&quot;${HIGHEST_VERSION}&quot;</span> <span class="o">]</span>;
+</span><span class='line'><span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">exit </span>0
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">exit </span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The problem is that <code>sort</code> was sorting the third octet&rsquo;s first digit instead of taking it as a whole. So, while we wanted &ldquo;12.1.10&rdquo; to show up from the <code>tail</code>, we were getting &ldquo;12.1.9&rdquo; back.</p>
+
+<h4>TO TEH INTERNETZ</h4>
+
+<p>Did some research (which was actually reading the man page of sort), and I came across the <code>-k</code> flag:</p>
+
+<blockquote><p>The recommended, POSIX, option for specifying a sort field.  The field consists of the part of the line between POS1 and POS2 (or the end of the line, if POS2 is omitted), <em>inclusive</em>.  Fields and character positions are numbered starting with 1.  So to sort on the second field, you&rsquo;d use `-k 2,2&#8217; See below for more examples.</p></blockquote>
+
+<p>After playing around with a few attempts, I finally came up with&hellip;</p>
+
+<figure class='code'><figcaption><span>Awesome Version Sort</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sort -t . -k 1,1n -k 2,2n -k 3,3n
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Breaking it down in English, the <code>sort</code> command separates fields by each decimal (<code>-t .</code>). Then, <code>sort</code> sorts the first field (<code>-k 1,1n</code>), second field (<code>-k 2,2n</code>).</p>
+
+<p>IMPORTANT NOTE: the reason you specify <code>-k x,xn</code> is to have <code>sort</code> <strong><em>n</em></strong>umerically sort each field separately. That way, instead of thinking the 1 in x.x.10 is less than x.x.9, you have &ldquo;10&rdquo; vs. &ldquo;9&rdquo;, and 10 is obviously larger than 9.</p>
+
+<p>Seems to work like a charm&hellip;and scalable, too! If you need to sort another octet in your versioning, just add another sort field like <code>-k 4,4n</code>. Learned something new today, and helped Engineering in the process. What a great day!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -680,6 +786,10 @@ Practice + practice + more practice.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/06/bashs-sort/">Bash&#8217;s Sort</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/22/moar-railz/">Moar Railz</a>
       </li>
     
@@ -693,10 +803,6 @@ Practice + practice + more practice.</p>
     
       <li class="post">
         <a href="/blog/2014/04/21/boxen/">Boxen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/24/got-schooled/">Got Schooled</a>
       </li>
     
   </ul>
