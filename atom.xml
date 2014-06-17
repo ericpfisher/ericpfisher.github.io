@@ -4,7 +4,7 @@
   <title><![CDATA[Fish(er)]]></title>
   <link href="http://ericpfisher.github.io/atom.xml" rel="self"/>
   <link href="http://ericpfisher.github.io/"/>
-  <updated>2014-06-06T16:36:19-05:00</updated>
+  <updated>2014-06-17T16:13:16-05:00</updated>
   <id>http://ericpfisher.github.io/</id>
   <author>
     <name><![CDATA[Eric Fisher]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[So Much Learnt]]></title>
+    <link href="http://ericpfisher.github.io/blog/2014/06/17/so-much-learnt/"/>
+    <updated>2014-06-17T10:19:23-05:00</updated>
+    <id>http://ericpfisher.github.io/blog/2014/06/17/so-much-learnt</id>
+    <content type="html"><![CDATA[<p>Holy shit. I&rsquo;ve been going crazy with learning lately. Mathias Bynens&#8217; legendary <a href="http://mths.be/osx">~/.osx</a>, Robin Ricard&rsquo;s <a href="http://osxc.github.io/">osxc</a>, the amazing power of <a href="http://docs.vagrantup.com/v2/getting-started/">Vagrant</a>, and most recently Joe Block&rsquo;s pkg-maker <a href="https://github.com/unixorn/luggage">Luggage</a>. I know I don&rsquo;t have the timespace to give each tool the detailed overview it deserves, so I&rsquo;m going to go over Luggage.</p>
+
+<h4>&ldquo;So you want to make a package, eh?&rdquo;</h4>
+
+<p>Alright, I know I masquerade as a Mac Engineer, but I&rsquo;m not…yet. I&rsquo;m trying my hardest, but, ya know, politics…</p>
+
+<p>So, I get it in my head the other day that having a Microsoft Office for Mac uninstaller might be nice. In my years of supporting Macs, Microsoft has never included a nice and concise method of removing its software from OS X. Instead, they direct you to a knowledge base article: <a href="http://support.microsoft.com/kb/2398768">How to completely remove Office for Mac 2011</a>. SO LAME!</p>
+
+<p>Step 1, remove this thing. Step 2, remove this other thing. Step 3, remove this other thing next to the thing you removed two steps ago. Drives me nuts every time. &ldquo;Someone has to have made a nice uninstallation method,&rdquo; I said. Though the magic of the internet, I found a few bash scripts, AppleScripts, etc. But, where&rsquo;s the fun in that? &ldquo;If all those other people did was script the removal of the components that Microsoft says to remove in their KB article, why can&rsquo;t I just make one myself?&rdquo; So, I did.</p>
+
+<p>Now, the scripting of the removal was easy:</p>
+
+<figure class='code'><figcaption><span>Uninstall Office</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">REMOVE_ME</span><span class="o">=(</span> <span class="s2">&quot;Microsoft Outlook&quot;</span> <span class="s2">&quot;Microsoft Word&quot;</span> <span class="s2">&quot;Microsoft PowerPoint&quot;</span> <span class="s2">&quot;Microsoft Excel&quot;</span> <span class="s2">&quot;Microsoft Messenger&quot;</span> <span class="s2">&quot;Microsoft Remote Desktop&quot;</span> <span class="s2">&quot;Microsoft Document Connection&quot;</span> <span class="s2">&quot;Microsoft Lync&quot;</span> <span class="o">)</span>
+</span><span class='line'><span class="nv">DOCK_PREFS</span><span class="o">=</span><span class="s2">&quot;${HOME}/Library/Preferences/com.apple.dock.plist&quot;</span>
+</span><span class='line'><span class="nv">PLISTBUDDY</span><span class="o">=</span><span class="s2">&quot;/usr/libexec/PlistBuddy&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>app in <span class="s2">&quot;${REMOVE_ME[@]}&quot;</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>killall <span class="s2">&quot;$app&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>rm -R <span class="s2">&quot;/Applications/Microsoft Office 2011&quot;</span>
+</span><span class='line'>rm -R <span class="s2">&quot;/Applications/Microsoft Messenger.app&quot;</span>
+</span><span class='line'>rm -R <span class="s2">&quot;/Applications/Microsoft Remote Desktop.app&quot;</span>
+</span><span class='line'>rm -R <span class="s2">&quot;/Applications/Microsoft Lync.app&quot;</span>
+</span><span class='line'>rm -R ~/Library/Preferences/com.microsoft*
+</span><span class='line'>rm -R /Library/LaunchDaemons/com.microsoft.office.licensing.helper.plist
+</span><span class='line'>rm -R /Library/PrivilegedHelperTools/com.microsoft.office.licensing.helper
+</span><span class='line'>rm -R /Library/Preferences/com.microsoft.office.licensing.plist
+</span><span class='line'>rm -R ~/Library/Preferences/ByHost/com.microsoft*
+</span><span class='line'>rm -R <span class="s2">&quot;/Library/Application Support/Microsoft&quot;</span>
+</span><span class='line'>rm -R /private/var/db/receipts/com.microsoft*
+</span><span class='line'>rm -R ~/Library/Application<span class="se">\ </span>Support/Microsoft/Office
+</span><span class='line'>rm -R /Library/Fonts/Microsoft
+</span><span class='line'>mv ~/Documents/Microsoft<span class="se">\ </span>User<span class="se">\ </span>Data ~/Desktop
+</span><span class='line'>
+</span><span class='line'>sleep 10
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>app in <span class="s2">&quot;${REMOVE_ME[@]}&quot;</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">  for</span> <span class="o">((</span> <span class="nv">item</span><span class="o">=</span>0; item &lt; 100; item++ <span class="o">))</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">      </span><span class="nv">app_name</span><span class="o">=</span><span class="k">$(</span> <span class="s2">&quot;$PLISTBUDDY&quot;</span> -c <span class="s2">&quot;print persistent-apps:$item:tile-data:file-label&quot;</span> <span class="s2">&quot;$DOCK_PREFS&quot;</span> 2&gt; /dev/null <span class="k">)</span>;
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;$app_name&quot;</span> <span class="o">==</span> <span class="s2">&quot;$app&quot;</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'>          <span class="s2">&quot;$PLISTBUDDY&quot;</span> -c <span class="s2">&quot;delete persistent-apps:$item&quot;</span> <span class="s2">&quot;$DOCK_PREFS&quot;</span> 2&gt; /dev/null;
+</span><span class='line'>      <span class="k">fi</span>
+</span><span class='line'><span class="k">  done</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>killall cfprefsd <span class="o">&amp;&amp;</span> killall Dock
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In short, kills any of the apps if they&rsquo;re open, (re)moves all the items Microsofts lists in the KB article (link above), and then iterates through the Dock plist to remove any relevant Dock items. No big deal.</p>
+
+<h4>Distribution?</h4>
+
+<p>Now, it&rsquo;s obviously easy to run this script locally and sudo it. However, I work in a location with over 2000 Macs and 32 floors. I <strong><em>DO NOT</em></strong> want to ride the elevator &ldquo;x&rdquo; number of floors just to plug in my flash drive and run a script. Additionally, <code>sudo</code>-ing things through Apple Remote Desktop hasn&rsquo;t proven to be the simplest task. I think a .pkg is the best option.</p>
+
+<p>At first, I was trying to use Apple&rsquo;s <a href="http://en.wikipedia.org/wiki/Apple_Developer_Tools#PackageMaker">PackageMaker</a>, which is still available from Apple&rsquo;s <a href="https://developer.apple.com/downloads/">Developer Portal Downloads</a> (search for &ldquo;packagemaker&rdquo; and download Auxiliary Tools for Xcode). <strong><em>However</em></strong>, PackageMaker was &ldquo;dropped&rdquo; by Apple circa 10.5/10.6, instead going the way of the command line with <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/pkgbuild.1.html"><code>pkgbuild</code></a>, <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/productbuild.1.html#//apple_ref/doc/man/1/productbuild"><code>productbuild</code></a> for Mac App Store distribution, and the awesome <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/pkgutil.1.html"><code>pkgutil</code></a>.</p>
+
+<p>I tried <code>pkgbuild</code> first, and it looked the most promising. When I built my first package, it was tricky trying to wrangle the preinstall/postinstall scripts where I wanted them. On top of that, I didn&rsquo;t want to overtly make any payloads, and the way I was using <code>pkgbuild</code> put one in there every time. So, I did some research about package creation and came across Luggage (link is above).</p>
+
+<h4>Graham Gilbert, You Rascal</h4>
+
+<p>Yeah, he&rsquo;s pretty much an idol of mine when it comes to Mac systems management. As I was browsing the wiki for Luggage, I saw that Graham has written an <strong><em>awesome</em></strong> <a href="http://grahamgilbert.com/blog/2013/08/09/the-luggage-an-introduction/">tutorial</a> for Luggage, and in his intro, he makes an awesome point:</p>
+
+<p>Luggage is all text! This means packages can be repo-ed and version-controlled!</p>
+
+<p>With my Office uninstaller, all I really needed to was to turn my main script into a postinstall script. With my script in the same directory as my Makefile…:</p>
+
+<figure class='code'><figcaption><span>Office Uninstall Luggage Makefile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">USE_PKGBUILD</span><span class="o">=</span>1
+</span><span class='line'>include /usr/local/share/luggage/luggage.make
+</span><span class='line'>
+</span><span class='line'><span class="nv">TITLE</span><span class="o">=</span><span class="s2">&quot;Uninstall Office for Mac&quot;</span>
+</span><span class='line'><span class="nv">PACKAGE_NAME</span><span class="o">=</span><span class="s2">&quot;Uninstall Office for Mac&quot;</span>
+</span><span class='line'><span class="nv">REVERSE_DOMAIN</span><span class="o">=</span>com.ericpfisher
+</span><span class='line'><span class="nv">PAYLOAD</span><span class="o">=</span><span class="se">\</span>
+</span><span class='line'>  pack-script-postinstall
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>…all I need to do is <code>make pkg</code> from the Makefile directory and <strong><em>BAM!</em></strong> I now have a beautiful Office for Mac uninstaller in a nice package.</p>
+
+<p>In summary, I recommend you go to Graham&rsquo;s tutorial I linked above and check out Luggage. Joe Block made an awesome tool, and since things can be tracked with version control, the possibilities are endless!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bash's Sort]]></title>
